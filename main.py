@@ -51,7 +51,7 @@ def request_http(url, headers, postdata=None, timeout=60):
     if not check_error(result):
         raise HTTPError()
     time.sleep(random.uniform(0, 2))
-    return result.content, result.encoding
+    return result.content, result.encoding, result.headers
 
 
 def check_error(r):
@@ -79,7 +79,7 @@ def start(max_page):
         request_url = url % (JSONCALLBACK, i, i, max_page)
         print(request_url)
         try:
-            content, encoding = request_http(url=request_url, headers=referer_header)
+            content, encoding, header = request_http(url=request_url, headers=referer_header)
             content = content.decode(encoding)
         except Exception:
             print('request_url error: %s' % request_url)
